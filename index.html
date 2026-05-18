@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Latihan Kelas B – Data Produk</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --pink:   #ff4da6;
+      --yellow: #ffe600;
+      --cyan:   #00e5ff;
+      --lime:   #aaff00;
+      --orange: #ff7c2a;
+      --white:  #ffffff;
+      --dark:   #1a0033;
+      --card:   rgba(255,255,255,0.10);
+      --radius: 20px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #1a0033 0%, #0d1b5e 40%, #0a2e2e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 16px;
+      overflow-x: hidden;
+    }
+
+    /* floating blobs */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .35;
+      pointer-events: none;
+      animation: blobFloat 8s ease-in-out infinite alternate;
+    }
+    body::before {
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, var(--pink), transparent);
+      top: -100px; left: -100px;
+    }
+    body::after {
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, var(--cyan), transparent);
+      bottom: -80px; right: -80px;
+      animation-delay: -4s;
+    }
+    @keyframes blobFloat {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(30px, 30px) scale(1.08); }
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 560px;
+      animation: slideUp .7s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(60px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HEADER ── */
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--dark);
+      font-family: 'Baloo 2', cursive;
+      font-weight: 800;
+      font-size: .78rem;
+      letter-spacing: .12em;
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 16px var(--yellow);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 14px var(--yellow); }
+      50%      { box-shadow: 0 0 30px var(--yellow), 0 0 50px var(--orange); }
+    }
+    .header h1 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      text-shadow: 0 0 24px var(--cyan);
+    }
+    .header h1 span { color: var(--cyan); }
+    .header p {
+      margin-top: 6px;
+      color: rgba(255,255,255,.55);
+      font-size: .9rem;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1.5px solid rgba(255,255,255,.15);
+      border-radius: var(--radius);
+      padding: 34px 32px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    }
+
+    /* ── FORM FIELDS ── */
+    .field {
+      margin-bottom: 20px;
+      animation: fadeIn .5s ease both;
+    }
+    .field:nth-child(1){ animation-delay:.05s }
+    .field:nth-child(2){ animation-delay:.10s }
+    .field:nth-child(3){ animation-delay:.15s }
+    .field:nth-child(4){ animation-delay:.20s }
+    .field:nth-child(5){ animation-delay:.25s }
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateX(-18px); }
+      to   { opacity:1; transform:translateX(0); }
+    }
+
+    label {
+      display: block;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.65);
+      margin-bottom: 7px;
+    }
+    label .dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-right: 7px;
+      vertical-align: middle;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px 18px;
+      background: rgba(255,255,255,.06);
+      border: 1.5px solid rgba(255,255,255,.18);
+      border-radius: 12px;
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      outline: none;
+      transition: border-color .25s, box-shadow .25s, background .25s;
+    }
+    input::placeholder { color: rgba(255,255,255,.3); font-weight: 400; }
+    input:focus {
+      background: rgba(255,255,255,.11);
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0,229,255,.18);
+    }
+
+    /* color accents per field */
+    .f1 .dot { background: var(--pink); }
+    .f1 input:focus { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(255,77,166,.18); }
+    .f2 .dot { background: var(--cyan); }
+    .f3 .dot { background: var(--lime); }
+    .f3 input:focus { border-color: var(--lime); box-shadow: 0 0 0 3px rgba(170,255,0,.18); }
+    .f4 .dot { background: var(--orange); }
+    .f4 input:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,124,42,.18); }
+    .f5 .dot { background: var(--yellow); }
+    .f5 input:focus { border-color: var(--yellow); box-shadow: 0 0 0 3px rgba(255,230,0,.18); }
+
+    /* ── BUTTON ── */
+    .btn-wrap {
+      margin-top: 28px;
+      text-align: center;
+    }
+    button {
+      cursor: pointer;
+      border: none;
+      padding: 15px 54px;
+      border-radius: 999px;
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      color: var(--dark);
+      background: linear-gradient(135deg, var(--yellow) 0%, var(--orange) 60%, var(--pink) 100%);
+      background-size: 200% 200%;
+      box-shadow: 0 6px 28px rgba(255,124,42,.45);
+      transition: transform .2s, box-shadow .2s;
+      animation: gradShift 4s ease infinite;
+      position: relative;
+      overflow: hidden;
+    }
+    @keyframes gradShift {
+      0%,100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+    button::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0);
+      transition: background .2s;
+      border-radius: 999px;
+    }
+    button:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 12px 40px rgba(255,77,166,.5); }
+    button:hover::after { background: rgba(255,255,255,.12); }
+    button:active { transform: scale(.97); }
+
+    /* ── RESULT CARD ── */
+    #result {
+      display: none;
+      margin-top: 26px;
+      border-radius: var(--radius);
+      background: rgba(0,229,255,.07);
+      border: 1.5px solid rgba(0,229,255,.3);
+      padding: 24px 26px;
+      animation: popIn .45s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes popIn {
+      from { opacity:0; transform: scale(.92) translateY(16px); }
+      to   { opacity:1; transform: scale(1) translateY(0); }
+    }
+    #result h2 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.15rem;
+      color: var(--cyan);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #result h2::before { content: '✦'; font-size: 1rem; }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .result-item {
+      background: rgba(255,255,255,.06);
+      border-radius: 12px;
+      padding: 12px 14px;
+      border: 1px solid rgba(255,255,255,.1);
+    }
+    .result-item .r-label {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+      margin-bottom: 4px;
+    }
+    .result-item .r-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      word-break: break-word;
+    }
+    .r-kode  .r-value { color: var(--pink); }
+    .r-nama  .r-value { color: var(--cyan); }
+    .r-harga .r-value { color: var(--lime); }
+    .r-stok  .r-value { color: var(--orange); }
+    .r-exp   .r-value { color: var(--yellow); }
+    .r-exp { grid-column: 1 / -1; }
+
+    /* expired warning */
+    .exp-warn {
+      margin-top: 14px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: .88rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .exp-warn.expired  { background: rgba(255,77,77,.2); border: 1px solid rgba(255,77,77,.4); color: #ff7070; }
+    .exp-warn.valid    { background: rgba(170,255,0,.12); border: 1px solid rgba(170,255,0,.35); color: var(--lime); }
+
+    /* reset btn */
+    .btn-reset {
+      margin-top: 14px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.2);
+      color: #fff;
+      padding: 9px 28px;
+      border-radius: 999px;
+      font-family: 'Nunito', sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn-reset:hover { background: rgba(255,255,255,.16); }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      margin-top: 22px;
+      font-size: .78rem;
+      color: rgba(255,255,255,.3);
+      letter-spacing: .05em;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <div class="header">
+      <div class="badge">⚡ LATIHAN KELAS B</div>
+      <h1>Data <span>Produk</span></h1>
+      <p>Isi semua field lalu tekan tombol Proses</p>
+    </div>
+
+    <div class="card">
+      <div class="field f1">
+        <label><span class="dot"></span>Kode Produk</label>
+        <input type="text" id="kode" placeholder="Contoh: PRD-001" />
+      </div>
+      <div class="field f2">
+        <label><span class="dot"></span>Nama Produk</label>
+        <input type="text" id="nama" placeholder="Contoh: Susu Ultra Full Cream" />
+      </div>
+      <div class="field f3">
+        <label><span class="dot"></span>Harga</label>
+        <input type="number" id="harga" placeholder="Contoh: 15000" min="0" />
+      </div>
+      <div class="field f4">
+        <label><span class="dot"></span>Jumlah Stok</label>
+        <input type="number" id="stok" placeholder="Contoh: 50" min="0" />
+      </div>
+      <div class="field f5">
+        <label><span class="dot"></span>Tanggal Expired</label>
+        <input type="date" id="expired" />
+      </div>
+
+      <div class="btn-wrap">
+        <button onclick="proses()">🚀 PROSES</button>
+      </div>
+
+      <!-- HASIL -->
+      <div id="result">
+        <h2>Hasil Data Produk</h2>
+        <div class="result-grid">
+          <div class="result-item r-kode">
+            <div class="r-label">Kode Produk</div>
+            <div class="r-value" id="out-kode">—</div>
+          </div>
+          <div class="result-item r-nama">
+            <div class="r-label">Nama Produk</div>
+            <div class="r-value" id="out-nama">—</div>
+          </div>
+          <div class="result-item r-harga">
+            <div class="r-label">Harga</div>
+            <div class="r-value" id="out-harga">—</div>
+          </div>
+          <div class="result-item r-stok">
+            <div class="r-label">Jumlah Stok</div>
+            <div class="r-value" id="out-stok">—</div>
+          </div>
+          <div class="result-item r-exp">
+            <div class="r-label">Tanggal Expired</div>
+            <div class="r-value" id="out-exp">—</div>
+          </div>
+        </div>
+        <div id="exp-status" class="exp-warn valid"></div>
+        <button class="btn-reset" onclick="reset()">↩ Reset Form</button>
+      </div>
+    </div>
+
+    <div class="footer">© 2026 Latihan Kelas B &mdash; Program Front End</div>
+  </div>
+
+  <script>
+    function proses() {
+      const kode    = document.getElementById('kode').value.trim();
+      const nama    = document.getElementById('nama').value.trim();
+      const harga   = document.getElementById('harga').value.trim();
+      const stok    = document.getElementById('stok').value.trim();
+      const expired = document.getElementById('expired').value;
+
+      if (!kode || !nama || !harga || !stok || !expired) {
+        shakeEmpty();
+        return;
+      }
+
+      // Format harga ke Rupiah
+      const hargaNum = parseFloat(harga);
+      const hargaFmt = 'Rp ' + hargaNum.toLocaleString('id-ID');
+
+      // Format tanggal
+      const expDate = new Date(expired);
+      const today   = new Date(); today.setHours(0,0,0,0);
+      const expFmt  = expDate.toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' });
+
+      document.getElementById('out-kode').textContent  = kode;
+      document.getElementById('out-nama').textContent  = nama;
+      document.getElementById('out-harga').textContent = hargaFmt;
+      document.getElementById('out-stok').textContent  = stok + ' pcs';
+      document.getElementById('out-exp').textContent   = expFmt;
+
+      const statusEl = document.getElementById('exp-status');
+      if (expDate < today) {
+        statusEl.className = 'exp-warn expired';
+        statusEl.innerHTML = '⚠️ Produk ini sudah <strong>EXPIRED</strong>!';
+      } else {
+        const diff = Math.ceil((expDate - today) / 86400000);
+        statusEl.className = 'exp-warn valid';
+        statusEl.innerHTML = `✅ Produk masih valid &mdash; <strong>${diff} hari</strong> lagi hingga expired.`;
+      }
+
+      const res = document.getElementById('result');
+      res.style.display = 'block';
+      res.style.animation = 'none';
+      void res.offsetWidth;
+      res.style.animation = '';
+      res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function reset() {
+      ['kode','nama','harga','stok','expired'].forEach(id => document.getElementById(id).value = '');
+      const res = document.getElementById('result');
+      res.style.display = 'none';
+    }
+
+    function shakeEmpty() {
+      const inputs = ['kode','nama','harga','stok','expired'];
+      inputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) {
+          el.style.borderColor = '#ff4d4d';
+          el.style.animation = 'shake .4s ease';
+          setTimeout(() => { el.style.animation = ''; el.style.borderColor = ''; }, 600);
+        }
+      });
+    }
+  </script>
+
+  <style>
+    @keyframes shake {
+      0%,100%{ transform: translateX(0); }
+      20%    { transform: translateX(-8px); }
+      40%    { transform: translateX(8px); }
+      60%    { transform: translateX(-5px); }
+      80%    { transform: translateX(5px); }
+    }
+  </style>
+</body>
+</html>
